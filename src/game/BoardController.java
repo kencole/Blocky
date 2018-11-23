@@ -1,12 +1,39 @@
 package game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class Controller implements MouseListener, MouseMotionListener, KeyListener{
+import javax.swing.Timer;
+
+import renderer.Board;
+import renderer.Renderer;
+
+public class BoardController implements MouseListener, MouseMotionListener, KeyListener, ActionListener{
+	
+	Board b;
+	Renderer r;
+	Timer t;
+	
+	public BoardController(Board b, int ms) {
+		this.b = b;
+		this.b.setBoardController(this);
+		this.r = new Renderer(b.getSize());
+		t = new Timer(ms, this);
+		b.addRenderer(r);
+	}
+	
+	public void start() {
+		t.start();
+	}
+	
+	public void suspend() {
+		t.stop();
+	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -66,6 +93,16 @@ public class Controller implements MouseListener, MouseMotionListener, KeyListen
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void update() {
+		r.setBoardSize(b.getSize());
+		this.r.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		this.update();
 	}
 
 }

@@ -3,18 +3,21 @@ package renderer;
 
 
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
-import game.Controller;
+import game.BoardController;
 
 public class Board{
 
 	JFrame frame;
-	Controller cont;
+	BoardController cont;
+	Renderer r;
 	
-	public Board(String name, Controller c) {
+	public Board(String name, BoardController c) {
 		this(name);
-		this.setController(c);
+		this.setBoardController(c);
 	}
 	
 	public Board(String name) {
@@ -34,23 +37,27 @@ public class Board{
 	
 	public void setSize(int size_x, int size_y) {
 		frame.setSize(size_x, size_y);
+		r.setBoardSize(frame.getSize());
 	}
 	
-	public void setController(Controller c) {
+	public void setBoardController(BoardController c) {
 		cont = c;
 		frame.addMouseMotionListener(c);
 		frame.addMouseListener(c);
 		frame.addKeyListener(c);
 	}
 	
-	public Controller getController() {
+	public BoardController getBoardController() {
 		return this.cont;
 	}
 	
-	public JFrame getFrame() {
-		return this.frame;
+	public void addRenderer(Renderer r) {
+		this.r = r;
+		frame.add(r);
 	}
 
-	
+	public Dimension getSize() {
+		return frame.getSize();
+	}
 	
 }

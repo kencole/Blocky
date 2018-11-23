@@ -1,15 +1,26 @@
 package renderer;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
 public class Renderer extends JComponent{
 	
+	private static final long serialVersionUID = 1L;
+	
+	Dimension size;
+	
+	public Renderer(Dimension size) {
+		this.size = size;
+	}
+	
 	public void paint(Graphics g) {
-//		g.setColor(new Color(0,0,0));
-//		g.fillRect(0, 0, 1800, 1200);
+		System.out.println("Painting " + size.width +" x " + size.height);
+		g.setColor(new Color(0,0,0));
+		g.fillRect(0, 0, size.width, size.height);
+		
 //		for(int x = 0; x < 10; x++) {
 //			g.setColor(c[x]);
 //			g.fillRect(x*160 + 130, 1000, 60, 60);
@@ -27,6 +38,10 @@ public class Renderer extends JComponent{
 //				}
 //			}
 //		}
+	}
+
+	public void setBoardSize(Dimension size) {
+		this.size = size;
 	}
 
 }
