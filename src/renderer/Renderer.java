@@ -51,7 +51,7 @@ public class Renderer extends JComponent{
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(new Color(20,20,80));
+		g.setColor(new Color(126,192,238));
 		g.fillRect(0, 0, size.width, size.height);
 		for(int i = 0; i < this.world.blocks.length; i++) {
 			for(int j = 0; j < this.world.blocks[0].length; j++) {
@@ -63,23 +63,44 @@ public class Renderer extends JComponent{
 			}
 		}
 		Collections.sort(cubes, new SortdistAscending());
-		g.setColor(new Color(255,255,255));
+		g.setColor(new Color(0,0,0));
 		//System.out.println("Render");
 		for(int i = cubes.size() - 1; i >= 0; i--) {
 			List<SqFace3> faces = cubes.get(i).getFaces();
 			Collections.sort(faces, new SortdistAscendingFace());
 			for(int j = faces.size() - 1; j >= 0; j--) {
+				g.setColor(new Color(255,255,0));
 				//System.out.println("Render2");
+				double[] dvec1 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, faces.get(j).p1.getVec()));
+				double[] dvec2 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, faces.get(j).p2.getVec()));
+				double[] dvec3 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, faces.get(j).p3.getVec()));
+				double[] dvec4 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, faces.get(j).p4.getVec()));
+				double bx1 = 100/dvec1[2] * dvec1[0] + size.width/2;
+				double by1 = 100/dvec1[2] * dvec1[1] + size.height/2;
+				double bx2 = 100/dvec2[2] * dvec2[0] + size.width/2;
+				double by2 = 100/dvec2[2] * dvec2[1] + size.height/2;
+				double bx3 = 100/dvec3[2] * dvec3[0] + size.width/2;
+				double by3 = 100/dvec3[2] * dvec3[1] + size.height/2;
+				double bx4 = 100/dvec4[2] * dvec4[0] + size.width/2;
+				double by4 = 100/dvec4[2] * dvec4[1] + size.height/2;
+				if(bx1 > 0 && by1 > 0 && bx2 > 0 && by2 > 0 && bx3 > 0 && by3 > 0 && bx4 > 0 && by4 > 0 && 
+						dvec1[2] > 0 && dvec2[2] > 0 && dvec3[2] > 0 && dvec4[2] > 0) {
+					g.fillPolygon(
+							new int[] {(int)bx1, (int)bx2, (int)bx3, (int)bx4},
+							new int[] {(int)by1, (int)by2, (int)by3, (int)by4}, 4);
+				}
+				
 				List<Line3> lines = faces.get(j).getLines();
+				g.setColor(new Color(0,0,0));
 				for(int k = 0; k < lines.size(); k++) {
-					double[] dvec1 = MatrixMath.matrixVecMult33(dmat, MatrixMath.vecplus3(lines.get(k).a.getVec(), cVec));
-					double[] dvec2 = MatrixMath.matrixVecMult33(dmat, MatrixMath.vecplus3(lines.get(k).b.getVec(), cVec));
-					double bx1 = 100/dvec1[2] * dvec1[0] + size.width/2;
-					double by1 = 100/dvec1[2] * dvec1[1] + size.height/2;
-					double bx2 = 100/dvec2[2] * dvec1[0] + size.width/2;
-					double by2 = 100/dvec2[2] * dvec1[1] + size.height/2;
-					//System.out.println(bx1 + " " + by1 + " " + bx2 + " " + by2);
-					g.drawLine((int)bx1, (int)by1, (int)bx2, (int)by2);
+					dvec1 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, lines.get(k).a.getVec()));
+					dvec2 = MatrixMath.vecplus3(cVec, MatrixMath.matrixVecMult33(dmat, lines.get(k).b.getVec()));
+					bx1 = 100/dvec1[2] * dvec1[0] + size.width/2;
+					by1 = 100/dvec1[2] * dvec1[1] + size.height/2;
+					bx2 = 100/dvec2[2] * dvec2[0] + size.width/2;
+					by2 = 100/dvec2[2] * dvec2[1] + size.height/2;
+					if(bx1 > 0 && by1 > 0 && bx2 > 0 && by2 > 0 && dvec1[2] > 0 && dvec2[2] > 0)
+						g.drawLine((int)bx1, (int)by1, (int)bx2, (int)by2);
 				}
 			}
 		}

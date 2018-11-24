@@ -14,7 +14,7 @@ public class Person {
 		pos_x = 0;
 		pos_y = 0;
 		pos_z = 1;
-		angle_x = 0;
+		angle_x = 3 * Math.PI / 2;
 		angle_y = 0;
 		vel_x = 0;
 		vel_y = 0;

@@ -44,10 +44,16 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			pc.p.angle_x += 0.1;
+			pc.p.angle_x += 0.05;
 			break;
 		case KeyEvent.VK_LEFT:
-			pc.p.angle_y += 0.1;
+			pc.p.angle_y += 0.05;
+			break;
+		case KeyEvent.VK_DOWN:
+			pc.p.angle_x -= 0.05;
+			break;
+		case KeyEvent.VK_RIGHT:
+			pc.p.angle_y -= 0.05;
 			break;
 		case KeyEvent.VK_W:
 			pc.forward();
@@ -144,6 +150,7 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	}
 
 	public void update() {
+		pc.update();
 		r.setBoardSize(b.getSize());
 		r.updateCamera(pc.getCamera());
 		r.updateWorld(wc.getWorld());

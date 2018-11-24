@@ -15,6 +15,11 @@ public class PersonController {
 	public PersonController(Person person, World w) {
 		this.w = w;
 		this.p = person;
+		f = false;
+		b = false;
+		l = false;
+		r = false;
+		j = false;
 	}
 
 	public void jump() {
@@ -61,9 +66,22 @@ public class PersonController {
 		int[] pos = p.getBlock();
 		if(f && !b) {
 			// add code to pick direction and make the character move;
+			p.vel_x = 0.3;
+		} else if (b && !f) {
+			p.vel_x = -0.3;
+    	} else {
+			p.vel_x = 0;
+		}
+		if(r && !l) {
+			// add code to pick direction and make the character move;
+			p.vel_y = 0.3;
+		} else if (l && !r) {
+			p.vel_y = -0.3;
+    	} else {
+			p.vel_y = 0;
 		}
     	this.p.move();
-    	if (p.vel_z != 0) p.vel_z -= Person.ACCEL;
+    	/*if (p.vel_z != 0) p.vel_z -= Person.ACCEL;
     	if(p.pos_z - p.vel_z > 0 && (int)(p.pos_z - p.vel_z) != (int) p.pos_z) {
     		//falling into next block
     		if(w.blocks[pos[0]][pos[1]][pos[2] - 1].type == Block.Type.GROUND) {
@@ -73,7 +91,7 @@ public class PersonController {
     	}
     	if(pos[2] - 1 > 0 && w.blocks[pos[0]][pos[1]][pos[2] - 1].type == Block.Type.AIR) {
     		p.vel_z = -0.11;
-    	}
+    	}*/
     }
 
 	public Camera getCamera() {

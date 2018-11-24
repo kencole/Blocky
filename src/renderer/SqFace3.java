@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SqFace3 {
 
-	Point3 p1, p2, p3, p4;
+	protected Point3 p1, p2, p3, p4;
 	Point3 center;
 	
 	public SqFace3(Point3 p1, Point3 p2, Point3 p3, Point3 p4) {
