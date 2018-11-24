@@ -12,6 +12,7 @@ import javax.swing.Timer;
 
 import renderer.Board;
 import renderer.Renderer;
+import renderer.Camera;
 
 public class BoardController implements MouseListener, MouseMotionListener, KeyListener, ActionListener{
 	
@@ -131,14 +132,16 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 		
 	}
 
-	public void update() {
-		r.setBoardSize(b.getSize());
-		this.r.repaint();
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.update();
+	}
+
+	public void update() {
+		r.setBoardSize(b.getSize());
+		r.updateCamera(pc.getCamera());
+		r.updateWorld(wc.getWorld());
+		this.r.repaint();
 	}
 
 }

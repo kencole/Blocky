@@ -1,5 +1,7 @@
 package game;
 
+import renderer.Camera;
+
 public class Person {
 	
 	public double pos_x, pos_y, pos_z;
@@ -27,5 +29,9 @@ public class Person {
 		pos_x += vel_x;
 		pos_y += vel_y;
 		pos_z += vel_z;		
+	}
+
+	public Camera getCamera() {
+		return new Camera(angle_x, angle_y, pos_x, pos_y, pos_z);
 	}
 }

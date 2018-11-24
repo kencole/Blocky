@@ -1,11 +1,10 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import game.Block;
 import game.Person;
 import game.World;
+import renderer.Camera;
 
 public class PersonController {
 	
@@ -61,7 +60,7 @@ public class PersonController {
     public void update() {
 		int[] pos = p.getBlock();
 		if(f && !b) {
-			
+			// add code to pick direction and make the character move;
 		}
     	this.p.move();
     	if (p.vel_z != 0) p.vel_z -= Person.ACCEL;
@@ -76,4 +75,8 @@ public class PersonController {
     		p.vel_z = -0.11;
     	}
     }
+
+	public Camera getCamera() {
+		return p.getCamera();
+	}
 }

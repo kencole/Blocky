@@ -10,4 +10,10 @@ public class Point3 {
 		this.z = z;
 	}
 	
+	public static double distSq(Point3 A, Point3 B) {
+		double x = A.x - B.x;
+		double y = A.y - B.y;
+		double z = A.z - B.z;
+		return x*x + y*y + z*z;
+	}
 }

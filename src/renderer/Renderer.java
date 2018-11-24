@@ -3,23 +3,72 @@ package renderer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JComponent;
+
+import game.Block;
+import game.World;
+
+import matrix.MatrixMath;
 
 public class Renderer extends JComponent{
 	
 	private static final long serialVersionUID = 1L;
 	
+	List<Cube3> cubes;
+	
 	Dimension size;
+	static Camera cam;
+	World world;
+	double[][] dmat;
+	double[] cVec;
 	
 	public Renderer(Dimension size) {
 		this.size = size;
+		cubes = new ArrayList<Cube3>();
+	}
+	
+	public void updateCamera(Camera c) {
+		cam = c;
+		double[][] A = new double[][] {
+			{1,0, 0},
+			{0, Math.cos(c.theta), Math.sin(c.theta)},
+			{0, -Math.sin(c.theta), Math.cos(c.theta)}
+		};
+		double[][] B = new double[][] {
+			{Math.cos(c.phi), 0, -Math.sin(c.phi)},
+			{0, 1, 0},
+			{Math.sin(c.phi), 0, Math.cos(c.phi)}
+		};
+		dmat = MatrixMath.matrixMult33(A, B);
+		cVec = MatrixMath.matrixVecMult33(dmat, MatrixMath.scalarVec3(-1, new double[] {c.x, c.y, c.z}));
 	}
 	
 	public void paint(Graphics g) {
-		System.out.println("Painting " + size.width +" x " + size.height);
-		g.setColor(new Color(0,0,0));
+		g.setColor(new Color(20,20,80));
 		g.fillRect(0, 0, size.width, size.height);
+		for(int i = 0; i < this.world.blocks.length; i++) {
+			for(int j = 0; j < this.world.blocks[0].length; j++) {
+				for(int k = 0; k < this.world.blocks[1].length; k++) {
+					if(this.world.blocks[i][j][k].type == Block.Type.GROUND) {
+						cubes.add(this.world.blocks[i][j][k].getCube());
+					}
+				}
+			}
+		}
+		Collections.sort(cubes, new SortdistAscending());
+		g.setColor(new Color(255,255,255));
+		for(int i = cubes.size() - 1; i >= 0; i--) {
+			List<SqFace3> faces = cubes.get(i).getFaces();
+			Collections.sort(faces, new SortdistAscendingFace());
+			for(int j = faces.size() - 1; j >= 0; j--) {
+				g.drawLine((int)faces.get(j).p1.x, (int)faces.get(j).p1.y, (int)faces.get(j).p2.x, (int)faces.get(j).p2.y);
+			}
+		}
 		
 //		for(int x = 0; x < 10; x++) {
 //			g.setColor(c[x]);
@@ -44,4 +93,32 @@ public class Renderer extends JComponent{
 		this.size = size;
 	}
 
+	public void updateWorld(World world) {
+		this.world = world;
+	}
+
+	
+	private class SortdistAscending implements Comparator<Cube3>{
+
+		@Override
+		public int compare(Cube3 arg0, Cube3 arg1) {
+			double dist0 = Point3.distSq(arg0.center, Renderer.cam.xyz);
+			double dist1 = Point3.distSq(arg1.center, Renderer.cam.xyz);
+			if(dist0 == dist1) return 0;
+			return dist0 > dist1 ? 1 : -1;
+		}
+		
+	}
+	
+	private class SortdistAscendingFace implements Comparator<SqFace3>{
+
+		@Override
+		public int compare(SqFace3 arg0, SqFace3 arg1) {
+			double dist0 = Point3.distSq(arg0.center, Renderer.cam.xyz);
+			double dist1 = Point3.distSq(arg1.center, Renderer.cam.xyz);
+			if(dist0 == dist1) return 0;
+			return dist0 > dist1 ? 1 : -1;
+		}
+		
+	}
 }
