@@ -18,9 +18,7 @@ public class Blocky {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Board b = new Board("Blocky");
-		System.out.println("fuck1");
 		World w = new World();
-		System.out.println("fuck0");
 		WorldController wc = new WorldController(w);
 		PersonController pc = new PersonController(new Person(), w);
 		BoardController bc = new BoardController(b, 20, wc, pc);
