@@ -1,13 +1,10 @@
 package renderer;
 
-
-
-
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import game.BoardController;
+import controller.BoardController;
 
 public class Board{
 

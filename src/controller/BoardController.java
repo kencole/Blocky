@@ -1,4 +1,4 @@
-package game;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +18,17 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	Board b;
 	Renderer r;
 	Timer t;
+	WorldController wc;
+	PersonController pc;
 	
-	public BoardController(Board b, int ms) {
+	public BoardController(Board b, int ms, WorldController wc, PersonController pc) {
 		this.b = b;
 		this.b.setBoardController(this);
 		this.r = new Renderer(b.getSize());
 		t = new Timer(ms, this);
 		b.addRenderer(r);
+		this.wc = wc;
+		this.pc = pc;
 	}
 	
 	public void start() {
@@ -37,13 +41,45 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		switch(arg0.getKeyCode()) {
+		case KeyEvent.VK_W:
+			pc.forward();
+			break;
+		case KeyEvent.VK_A:
+			pc.left();
+			break;
+		case KeyEvent.VK_S:
+			pc.back();
+			break;
+		case KeyEvent.VK_D:
+			pc.right();
+			break;
+		case KeyEvent.VK_SPACE:
+			pc.jump();
+			break;
+		}
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		switch(arg0.getKeyCode()) {
+		case KeyEvent.VK_W:
+			pc.unforward();
+			break;
+		case KeyEvent.VK_A:
+			pc.unleft();
+			break;
+		case KeyEvent.VK_S:
+			pc.unback();
+			break;
+		case KeyEvent.VK_D:
+			pc.unright();
+			break;
+		case KeyEvent.VK_SPACE:
+			pc.unjump();
+			break;
+		}
 		
 	}
 
