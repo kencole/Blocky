@@ -16,4 +16,8 @@ public class Point3 {
 		double z = A.z - B.z;
 		return x*x + y*y + z*z;
 	}
+	
+	public double[] getVec() {
+		return new double[] {x, y, z};
+	}
 }

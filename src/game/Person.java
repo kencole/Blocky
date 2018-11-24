@@ -32,6 +32,6 @@ public class Person {
 	}
 
 	public Camera getCamera() {
-		return new Camera(angle_x, angle_y, pos_x, pos_y, pos_z);
+		return new Camera(angle_x, angle_y, pos_x, pos_y, pos_z + 2);
 	}
 }

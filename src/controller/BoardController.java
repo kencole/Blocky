@@ -25,7 +25,7 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	public BoardController(Board b, int ms, WorldController wc, PersonController pc) {
 		this.b = b;
 		this.b.setBoardController(this);
-		this.r = new Renderer(b.getSize());
+		this.r = new Renderer(b.getSize(), wc.w, pc.getCamera());
 		t = new Timer(ms, this);
 		b.addRenderer(r);
 		this.wc = wc;
@@ -43,6 +43,12 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
+		case KeyEvent.VK_UP:
+			pc.p.angle_x += 0.1;
+			break;
+		case KeyEvent.VK_LEFT:
+			pc.p.angle_y += 0.1;
+			break;
 		case KeyEvent.VK_W:
 			pc.forward();
 			break;

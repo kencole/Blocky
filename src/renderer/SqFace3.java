@@ -1,5 +1,8 @@
 package renderer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SqFace3 {
 
 	Point3 p1, p2, p3, p4;
@@ -17,6 +20,15 @@ public class SqFace3 {
 	}
 	public Point3 getCenter() {	
 		return this.center;
+	}
+	
+	public List<Line3> getLines(){
+		List<Line3> lis = new ArrayList<Line3>(4);
+		lis.add(new Line3(p1, p2));
+		lis.add(new Line3(p2, p3));
+		lis.add(new Line3(p3, p4));
+		lis.add(new Line3(p4, p1));
+		return lis;
 	}
 
 }

@@ -27,8 +27,10 @@ public class Renderer extends JComponent{
 	double[][] dmat;
 	double[] cVec;
 	
-	public Renderer(Dimension size) {
+	public Renderer(Dimension size, World w, Camera cam) {
+		updateCamera(cam);
 		this.size = size;
+		this.world = w;
 		cubes = new ArrayList<Cube3>();
 	}
 	
@@ -53,7 +55,7 @@ public class Renderer extends JComponent{
 		g.fillRect(0, 0, size.width, size.height);
 		for(int i = 0; i < this.world.blocks.length; i++) {
 			for(int j = 0; j < this.world.blocks[0].length; j++) {
-				for(int k = 0; k < this.world.blocks[1].length; k++) {
+				for(int k = 0; k < this.world.blocks[0].length; k++) {
 					if(this.world.blocks[i][j][k].type == Block.Type.GROUND) {
 						cubes.add(this.world.blocks[i][j][k].getCube());
 					}
@@ -62,11 +64,23 @@ public class Renderer extends JComponent{
 		}
 		Collections.sort(cubes, new SortdistAscending());
 		g.setColor(new Color(255,255,255));
+		//System.out.println("Render");
 		for(int i = cubes.size() - 1; i >= 0; i--) {
 			List<SqFace3> faces = cubes.get(i).getFaces();
 			Collections.sort(faces, new SortdistAscendingFace());
 			for(int j = faces.size() - 1; j >= 0; j--) {
-				g.drawLine((int)faces.get(j).p1.x, (int)faces.get(j).p1.y, (int)faces.get(j).p2.x, (int)faces.get(j).p2.y);
+				//System.out.println("Render2");
+				List<Line3> lines = faces.get(j).getLines();
+				for(int k = 0; k < lines.size(); k++) {
+					double[] dvec1 = MatrixMath.matrixVecMult33(dmat, MatrixMath.vecplus3(lines.get(k).a.getVec(), cVec));
+					double[] dvec2 = MatrixMath.matrixVecMult33(dmat, MatrixMath.vecplus3(lines.get(k).b.getVec(), cVec));
+					double bx1 = 100/dvec1[2] * dvec1[0] + size.width/2;
+					double by1 = 100/dvec1[2] * dvec1[1] + size.height/2;
+					double bx2 = 100/dvec2[2] * dvec1[0] + size.width/2;
+					double by2 = 100/dvec2[2] * dvec1[1] + size.height/2;
+					//System.out.println(bx1 + " " + by1 + " " + bx2 + " " + by2);
+					g.drawLine((int)bx1, (int)by1, (int)bx2, (int)by2);
+				}
 			}
 		}
 		
