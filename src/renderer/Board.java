@@ -1,6 +1,7 @@
 package renderer;
 
 import java.awt.Dimension;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 
@@ -57,4 +58,8 @@ public class Board{
 		return frame.getSize();
 	}
 	
+	public Point getCenter() {
+		return new Point(frame.getLocationOnScreen().x + frame.getWidth()/2,
+				frame.getLocationOnScreen().y + frame.getHeight()/2);
+	}
 }

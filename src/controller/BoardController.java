@@ -1,5 +1,9 @@
 package controller;
 
+import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -21,6 +25,9 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	Timer t;
 	WorldController wc;
 	PersonController pc;
+	boolean mouseGrab = false;
+	int mousex, mousey;
+	Robot rob;
 	
 	public BoardController(Board b, int ms, WorldController wc, PersonController pc) {
 		this.b = b;
@@ -30,6 +37,14 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 		b.addRenderer(r);
 		this.wc = wc;
 		this.pc = pc;
+		this.mousex = 0;
+		this.mousey = 0;
+		try {
+			rob = new Robot();
+		} catch (AWTException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
 	public void start() {
@@ -69,6 +84,9 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 			break;
 		case KeyEvent.VK_SPACE:
 			pc.jump();
+			break;
+		case KeyEvent.VK_ESCAPE:
+			this.mouseGrab = false;
 			break;
 		}
 		
@@ -111,6 +129,24 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if(this.mouseGrab) {
+			System.out.println((e.getX() - b.getSize().width / 2) + " " + (e.getY() - b.getSize().height / 2) );
+			pc.p.angle_x += (e.getX() - b.getSize().width / 2) / 1000.0;
+			pc.p.angle_y += (e.getY() - b.getSize().height / 2) / 1000.0;
+			Point cent = b.getCenter();
+			System.out.println(cent.x + " " + cent.y);
+	        Point mert = MouseInfo.getPointerInfo().getLocation();
+			System.out.println(mert.x + " " + mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(mert.x, mert.y);
+	        mert = MouseInfo.getPointerInfo().getLocation();
+			System.out.println(mert.x + " " + mert.y);
+
+		}
 		
 	}
 
@@ -122,8 +158,7 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		this.mouseGrab = true;
 	}
 
 	@Override
@@ -153,7 +188,7 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 		pc.update();
 		r.setBoardSize(b.getSize());
 		r.updateCamera(pc.getCamera());
-		r.updateWorld(wc.getWorld());
+		//r.updateWorld(wc.getWorld());
 		this.r.repaint();
 	}
 

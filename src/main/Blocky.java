@@ -12,7 +12,7 @@ import renderer.Board;
 
 public class Blocky {
 	
-	final int updatedelay = 20;
+	final int updatedelay = 1;
 
 	public static void main(String[] args) {
 		

@@ -5,9 +5,9 @@ public class World {
 	public Block[][][] blocks;
 	
 	public World() {
-		int x = 8; 
-		int y = 8;
-		int z = 8;
+		int x = 64; 
+		int y = 64;
+		int z = 64;
 		blocks = new Block[x][y][z];
 		for(int i = 0; i < x; i++) {
 			for(int j = 0; j < y; j++) {
