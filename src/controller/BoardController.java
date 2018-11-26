@@ -137,12 +137,10 @@ public class BoardController implements MouseListener, MouseMotionListener, KeyL
 			System.out.println(cent.x + " " + cent.y);
 	        Point mert = MouseInfo.getPointerInfo().getLocation();
 			System.out.println(mert.x + " " + mert.y);
-		    rob.mouseMove(mert.x, mert.y);
-		    rob.mouseMove(mert.x, mert.y);
-		    rob.mouseMove(mert.x, mert.y);
-		    rob.mouseMove(mert.x, mert.y);
-		    rob.mouseMove(mert.x, mert.y);
-		    rob.mouseMove(mert.x, mert.y);
+		    rob.mouseMove(cent.x, cent.y);
+		    rob.mouseMove(cent.x, cent.y);
+		    rob.mouseMove(cent.x, cent.y);
+		    rob.mouseMove(cent.x, cent.y);
 	        mert = MouseInfo.getPointerInfo().getLocation();
 			System.out.println(mert.x + " " + mert.y);
 
